@@ -33,7 +33,7 @@ public class ProductsDTO {
     @NotEmpty(message = "error.price.empty")
     @Length(max = 50, message = "error.price.length")
     @Column(name = "price")
-    private BigDecimal price;
+    private float price;
 
     @Setter
     @NotEmpty(message = "error.date.empty")
