@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductsJpaRepository extends JpaRepository<ProductsDTO, Long> {
+    public ProductsDTO findByName(String name);
 }

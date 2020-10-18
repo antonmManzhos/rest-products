@@ -7,6 +7,12 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import java.sql.Timestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+@Getter
 @Entity
 @Table(name = "Products")
 public class ProductsDTO {
@@ -16,44 +22,21 @@ public class ProductsDTO {
     @Column(name="Id")
     private Long Id;
 
+    @Setter
+    @NotEmpty(message = "error.name.empty")
+    @Length(max = 50, message = "error.name.length")
     @Column(name = "name")
     private String name;
 
+    @Setter
+    @NotEmpty(message = "error.price.empty")
+    @Length(max = 50, message = "error.price.length")
     @Column(name = "price")
     private String price;
 
+    @Setter
+    @NotEmpty(message = "error.date.empty")
+    @Length(max = 50, message = "error.date.length")
     @Column(name = "Date")
     private Timestamp date;
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public Timestamp getDate() {
-        return date;
-    }
-
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
 }
