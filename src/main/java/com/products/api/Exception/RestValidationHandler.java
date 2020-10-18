@@ -45,14 +45,13 @@ public class RestValidationHandler {
             FieldValidationError fError = processFieldError(error);
             List<FieldValidationError> fValidationErrorsList = fValidationErrorDetails.getErrors().get(error.getField());
             if (fValidationErrorsList == null) {
-                fValidationErrorsList = new ArrayList<FieldValidationError>();
+                fValidationErrorsList = new ArrayList<>();
             }
             fValidationErrorsList.add(fError);
             fValidationErrorDetails.getErrors().put(error.getField(), fValidationErrorsList);
-        }                return new ResponseEntity<FieldValidationErrorDetails>(fValidationErrorDetails, HttpStatus.BAD_REQUEST);
+        }                return new ResponseEntity<>(fValidationErrorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    // method to process field error
     private FieldValidationError processFieldError(final FieldError error) {
         FieldValidationError fieldValidationError = new FieldValidationError();
         if (error != null) {
