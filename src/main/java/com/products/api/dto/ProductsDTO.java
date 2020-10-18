@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class ProductsDTO {
     @NotEmpty(message = "error.price.empty")
     @Length(max = 50, message = "error.price.length")
     @Column(name = "price")
-    private String price;
+    private BigDecimal price;
 
     @Setter
     @NotEmpty(message = "error.date.empty")
