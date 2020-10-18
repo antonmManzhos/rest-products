@@ -1,7 +1,12 @@
 package com.products.api.Exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,10 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @ControllerAdvice
 public class RestValidationHandler {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+
+    @Autowired
+    private MessageSource messageSource;
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<FieldValidationErrorDetails> handleValidationError(MethodArgumentNotValidException mNotArgumentNotValidException,
                                                                              HttpServletRequest request) {
@@ -46,9 +56,11 @@ public class RestValidationHandler {
     private FieldValidationError processFieldError(final FieldError error) {
         FieldValidationError fieldValidationError = new FieldValidationError();
         if (error != null) {
+            Locale currentLocale = LocaleContextHolder.getLocale();
+            String msg = messageSource.getMessage(error.getDefaultMessage(), null, currentLocale);
             fieldValidationError.setField(error.getField());
             fieldValidationError.setType(MessageType.ERROR);
-            fieldValidationError.setMessage(error.getDefaultMessage());
+            fieldValidationError.setMessage(msg);
         }
         return fieldValidationError;
     }
