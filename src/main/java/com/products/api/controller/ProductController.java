@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<ProductsDTO> createProduct(@RequestBody final ProductsDTO product) {
+    public ResponseEntity<ProductsDTO> createProduct(@Valid @RequestBody final ProductsDTO product) {
 
         if (productService.findProductByName(product.getName()) != null) {
             return new ResponseEntity<>(
