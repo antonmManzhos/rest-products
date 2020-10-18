@@ -1,17 +1,13 @@
 package com.products.api.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+//import org.hibernate.validator.constraints.Length;
+//import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Entity
@@ -19,24 +15,25 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ProductsDTO {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Id")
     private Long Id;
 
     @Setter
-    @NotEmpty(message = "error.name.empty")
-    @Length(max = 50, message = "error.name.length")
+//    @NotEmpty(message = "error.name.empty")
+//    @Length(max = 50, message = "error.name.length")
     @Column(name = "name")
     private String name;
 
     @Setter
-    @NotEmpty(message = "error.price.empty")
-    @Length(max = 50, message = "error.price.length")
+//    @NotEmpty(message = "error.price.empty")
+//    @Length(max = 50, message = "error.price.length")
     @Column(name = "price")
     private float price;
 
     @Setter
-    @NotEmpty(message = "error.date.empty")
-    @Column(name = "Date")
-    private Timestamp date;
+//    @NotEmpty(message = "error.date.empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "date")
+    private Date date;
 }
