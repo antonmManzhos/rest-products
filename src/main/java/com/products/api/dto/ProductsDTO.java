@@ -36,7 +36,6 @@ public class ProductsDTO {
 
     @Setter
     @NotEmpty(message = "error.date.empty")
-    @Length(max = 50, message = "error.date.length")
     @Column(name = "Date")
     private Timestamp date;
 }
