@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "Products")
 public class ProductsDTO {
@@ -22,18 +23,15 @@ public class ProductsDTO {
     @Column(name="Id")
     private Long Id;
 
-    @Setter
     @NotEmpty(message = "error.name.empty")
     @Length(max = 50, message = "error.name.length")
     @Column(name = "name")
     private String name;
 
-    @Setter
     @Column(name = "price")
     @Min(value = 0L, message = "error.price.value" )
     private float price;
 
-    @Setter
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "error.date.empty")
     @Column(name = "date")

@@ -2,7 +2,6 @@ package com.products.api.controller;
 
 import com.products.api.Exception.CustomErrorType;
 import com.products.api.dto.ProductsDTO;
-import com.products.api.repository.ProductsJpaRepository;
 import com.products.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
