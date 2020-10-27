@@ -1,6 +1,5 @@
 package com.products.api.Exception;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,10 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @ControllerAdvice
 public class RestValidationHandler {
@@ -26,15 +22,41 @@ public class RestValidationHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleMethodNotReadableException(HttpMessageNotReadableException mNotArgumentNotValidException,
+                                                                             HttpServletRequest request) {
+        var fValidationErrorDetails = new FieldValidationErrorDetails();
+        fValidationErrorDetails.setError_timeStamp(new Date().getTime());
+        fValidationErrorDetails.setError_status(HttpStatus.BAD_REQUEST.value());
+        fValidationErrorDetails.setError_title("Date Field Validation Error");
+        fValidationErrorDetails.setError_detail("Date Field Validation Failed");
+        fValidationErrorDetails.setError_developer_Message(mNotArgumentNotValidException.getClass().getName());
+        fValidationErrorDetails.setError_path(request.getRequestURI());
+
+        FieldValidationError error = new FieldValidationError();
+        error.setField("date");
+        error.setMessage(mNotArgumentNotValidException.getMessage());
+        error.setType(MessageType.ERROR);
+
+        List<FieldValidationError> errorList = new ArrayList<>();
+        errorList.add(error);
+        fValidationErrorDetails.getErrors().put("date", errorList);
+
+        return new ResponseEntity<>(fValidationErrorDetails, HttpStatus.NOT_FOUND);
+    }
+
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<FieldValidationErrorDetails> handleValidationError(MethodArgumentNotValidException mNotArgumentNotValidException,
                                                                              HttpServletRequest request) {
+
         FieldValidationErrorDetails fValidationErrorDetails = new FieldValidationErrorDetails();
         fValidationErrorDetails.setError_timeStamp(new Date().getTime());
         fValidationErrorDetails.setError_status(HttpStatus.BAD_REQUEST.value());
         fValidationErrorDetails.setError_title("Field Validation Error");
-        fValidationErrorDetails.setError_detail("Inut Field Validation Failed");
+        fValidationErrorDetails.setError_detail("Input Field Validation Failed");
         fValidationErrorDetails.setError_developer_Message(mNotArgumentNotValidException.getClass().getName());
         fValidationErrorDetails.setError_path(request.getRequestURI());
 
